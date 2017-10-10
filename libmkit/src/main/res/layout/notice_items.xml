@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/notify_view"
+    android:layout_width="fill_parent"
+    android:layout_height="30dp"
+    android:background="#ffe8ed"
+    android:visibility="gone">
+
+    <TextView
+        android:id="@+id/notify_view_text"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center_vertical"
+        android:background="@null"
+        android:gravity="center"
+        android:textColor="#fb1c4b"
+        android:textSize="14sp" />
+</RelativeLayout>

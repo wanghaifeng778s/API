@@ -1,31 +1,34 @@
 apply plugin: 'com.android.library'
 //apply plugin: 'com.github.dcendents.android-maven'
 //apply plugin: 'com.jfrog.bintray'
-//version = "0.1"
+//version = "1.0.1"
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion "26.0.1"
+    compileSdkVersion 25
+    buildToolsVersion "25.0.0"
 
     defaultConfig {
         minSdkVersion 16
-        targetSdkVersion 26
+        targetSdkVersion 25
         versionCode 1
         versionName "1.0"
     }
     buildTypes {
         release {
-            minifyEnabled  true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "KEY", "\"24634617\""
             buildConfigField "String", "APP_SECRET", "\"adedf24243b6ae4e0e0bee109593d193\""
         }
         debug {
-            minifyEnabled  true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "KEY", "\"24634617\""
             buildConfigField "String", "APP_SECRET", "\"adedf24243b6ae4e0e0bee109593d193\""
         }
+    }
+    lintOptions {
+        abortOnError false
     }
 
 }
@@ -35,14 +38,15 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-        compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
-        compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
-        compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
-//    compile files('libs/okhttp-3.3.0.jar')
-//    compile files('libs/retrofit-2.3.0.jar')
-//    compile files('libs/converter-gson-2.0.0-beta4.jar')
-//    compile files('libs/gson-2.4.jar')
-//    compile files('libs/okio-1.9.0.jar')
+    compile 'com.android.support:appcompat-v7:25.0.0'
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.jakewharton.timber:timber:4.5.1'
+    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    compile 'com.flyco.tablayout:FlycoTabLayout_Lib:2.1.2@aar'
+//    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
 }
 //def siteUrl = 'https://github.com/wanghaifeng778s'    // project homepage
 //def gitUrl = 'https://github.com/wanghaifeng778s/libmkit.git' // project git
@@ -54,12 +58,11 @@ dependencies {
 //        pom {
 //            project {
 //                packaging 'aar'
-//                name 'Mkit New API   For Android'                                   // #CONFIG# // project title
+//                name 'API New API   For Android'                                   // #CONFIG# // project title
 //                url siteUrl
 //                // Set your license
 //                licenses {
-//                    license {
-//                        name 'The Apache Software License, Version 2.0'
+//                    license {//                        name 'The Apache Software License, Version 2.0'
 //                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
 //                    }
 //                }

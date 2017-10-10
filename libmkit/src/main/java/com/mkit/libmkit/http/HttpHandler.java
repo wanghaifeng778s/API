@@ -24,22 +24,22 @@ public class HttpHandler {
     private Request request;
     private HttpUrl.Builder authorizedUrlBuilder;
 
-    private static final String X_CA_REQUEST_MODE = "X-Ca-Request-Mode";
-    private static final String X_Ca_Stage = "X-Ca-Stage";
-    private static final String X_Ca_Key = "X-Ca-Key";
-    private static final String Accept = "Accept";
-    private static final String X_Ca_Timestamp = "X-Ca-Timestamp";
-    private static final String X_Ca_Signature = "X-Ca-Signature";
-    private static final String X_Ca_Signature_Headers = "X-Ca-Signature-Headers";
-    public static final String TAG = "HttpHandler-----";
-    private final static String APP_SECRET = BuildConfig.APP_SECRET;
+    private  String X_CA_REQUEST_MODE = "X-Ca-Request-Mode";
+    private  String X_Ca_Stage = "X-Ca-Stage";
+    private  String X_Ca_Key = "X-Ca-Key";
+    private  String Accept = "Accept";
+    private  String X_Ca_Timestamp = "X-Ca-Timestamp";
+    private  String X_Ca_Signature = "X-Ca-Signature";
+    private  String X_Ca_Signature_Headers = "X-Ca-Signature-Headers";
+    public   String TAG = "HttpHandler-----";
+    private  String APP_SECRET = BuildConfig.APP_SECRET;
 
-    private static final String h1="debug";
-    private static final String h2="TEST";
-    private static final String h3= BuildConfig.KEY;
-    private static final String h4="application/json";
-    private static String h5="";
-    private static final String h6=" X-Ca-Timestamp,X-Ca-Request-Mode,X-Ca-Stage,X-Ca-Key";
+    private  String h1="debug";
+    private  String h2="TEST";
+    private  String h3= BuildConfig.KEY;
+    private  String h4="application/json";
+    private String h5="";
+    private  String h6=" X-Ca-Timestamp,X-Ca-Request-Mode,X-Ca-Stage,X-Ca-Key";
 
 
     Response onResponse(String httpResult, Interceptor.Chain chain, Response response) {
@@ -51,24 +51,24 @@ public class HttpHandler {
         request = chain.request();
         authorizedUrlBuilder = request.url().newBuilder()
                 .addQueryParameter("mos", "1")
-                .addQueryParameter("mver", "2.0.9.070104.111")
                 .addQueryParameter("net", "1")
-                .addQueryParameter("appname", "RozBuzzPlus")
-                .addQueryParameter("dcid", "1000")
-                .addQueryParameter("uid", "0ee65010de574771b83734d75694a9c2")
-                .addQueryParameter("lang", "0")
-                .addQueryParameter("cid", "700")
+                .addQueryParameter("uid", "329873743sss")
+                .addQueryParameter("cid", "32")
+                .addQueryParameter("dcid", "2000")
+                .addQueryParameter("mver", "2.4.2")
+                .addQueryParameter("appname", "RozBuzzPro")
+                .addQueryParameter("did", "1113367894ess1")
                 .scheme(request.url().scheme())
                 .host(request.url().host());
 
         request = request.newBuilder()
-                .header(X_CA_REQUEST_MODE, h1)
-                .header(X_Ca_Stage, h2)
-                .header(X_Ca_Key, h3)
-                .header(Accept, h4)
-                .header(X_Ca_Timestamp, h5)
-                .header(X_Ca_Signature_Headers, h6)
-                .header(X_Ca_Signature, getSign())
+//                .header(X_CA_REQUEST_MODE, h1)
+//                .header(X_Ca_Stage, h2)
+//                .header(X_Ca_Key, h3)
+//                .header(Accept, h4)
+//                .header(X_Ca_Timestamp, h5)
+//                .header(X_Ca_Signature_Headers, h6)
+//                .header(X_Ca_Signature, getSign())
                 .url(authorizedUrlBuilder.build())
                 .build();
         return chain.proceed(request);
@@ -78,8 +78,6 @@ public class HttpHandler {
         HashMap<String, String> urlParams = getUrlParams(authorizedUrlBuilder.build());
         HashMap<String, String> headerParams = getHeaderParams();
         String path = authorizedUrlBuilder.build().encodedPath();
-
-
         HashMap<String, String> bodyParams = getBodyParams(request.body());
         String sign = SignUtil.sign(APP_SECRET, request.method(), path, headerParams, urlParams, bodyParams, signHeaderPrefixList());
         Log.d(TAG, "getSign-----------------" + sign + "time------" + h5 + "****" + path);

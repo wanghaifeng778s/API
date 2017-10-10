@@ -5,6 +5,16 @@ package com.mkit.libmkit.http;
  */
 
 public class Constant {
+
+    public static String APP_VER = "3.0.0";
+    public static String PUB_CHANEL = "1000";
+    public static String APP_NAME = "RozBuzzLite";
+    public static String UID = "temp";
+    public static String VID = "-1";
+    public static String DID = "1234567";
+    // -1=未启动或已退出 ，0=初始化，1=抵达首页
+    public static int appstate = -1;
+
     /*
     新API参数
      */

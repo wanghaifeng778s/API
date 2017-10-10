@@ -1,32 +1,39 @@
 package com.feng.com.api;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 
-import com.mkit.libmkit.api.Mkit;
-import com.mkit.libmkit.bean.DataCallBackBody;
-
-import okhttp3.ResponseBody;
-import retrofit2.Response;
+import com.mkit.libmkit.ui.MkitActivity;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    TextView viewById;
+    Context mContext;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Mkit.getBody(this, new DataCallBackBody() {
-            @Override
-            public void dataCall(Response<ResponseBody> response) {
-                Log.d("********", "dataCall: ****************************");
-            }
+        mContext=this;
 
+        findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onError(Throwable throwable) {
-
+            public void onClick(View view) {
+                getData();
             }
         });
+
+         viewById = (TextView) findViewById(R.id.tv_show);
+
+
+    }
+
+    private void getData() {
+        Intent intent=new Intent(mContext, MkitActivity.class);
+        startActivity(intent);
     }
 }

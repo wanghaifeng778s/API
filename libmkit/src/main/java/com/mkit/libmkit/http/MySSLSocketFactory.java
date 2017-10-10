@@ -66,7 +66,7 @@ public class MySSLSocketFactory {
     public static SSLSocketFactory getSSLSocketFactoryT(Context contexts)  {
         try {
             CertificateFactory cf = CertificateFactory.getInstance("X.509","BC");
-            InputStream caInput = contexts.getResources().openRawResource(R.raw.app);
+            InputStream caInput = contexts.getResources().openRawResource(R.raw.rozbuzz_openapi);
             Certificate ca;
             try {
                 ca = cf.generateCertificate(caInput);

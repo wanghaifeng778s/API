@@ -12,6 +12,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import timber.log.Timber;
 
 //import com.google.gson.Gson;
 
@@ -29,19 +30,25 @@ public class HttpService {
     private static Retrofit retrofit;
 
     private static void getRetrofit(Context mContext){
+        Timber.plant(new Timber.DebugTree());
         OkHttpClient client= null;
-        client = new OkHttpClient.Builder()
-                .readTimeout(TIME_OUT, TimeUnit.SECONDS)
-                .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        return new HttpHandler().onRequest(chain);
-                    }
-                })
-                .sslSocketFactory(MySSLSocketFactory.getSSLSocketFactoryT(mContext))
-                .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
-                .build();
+        try {
+            client = new OkHttpClient.Builder()
+                    .readTimeout(TIME_OUT, TimeUnit.SECONDS)
+                    .connectTimeout(TIME_OUT, TimeUnit.SECONDS)
+                    .addInterceptor(new Interceptor() {
+                        @Override
+                        public Response intercept(Chain chain) throws IOException {
+                            return new HttpHandler().onRequest(chain);
+                        }
+                    })
+                    .addNetworkInterceptor(new RequestInterceptor(new HttpHandler()))
+//                    .sslSocketFactory(MySSLSocketFactory.getSSLSocketFactoryT(mContext))
+//                    .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
+                    .build();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         retrofit=new Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client)
