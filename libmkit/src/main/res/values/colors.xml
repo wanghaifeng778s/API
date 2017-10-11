@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="black">#000</color>
     <color name="white">#FFF</color>
+    <color name="galry">#444</color>
+    <color name="txt_E3E3E3">#E3E3E3</color>
 </resources>

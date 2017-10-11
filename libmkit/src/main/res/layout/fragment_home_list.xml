@@ -7,12 +7,15 @@
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        app:srlHeaderHeight="70dp"
+        >
         <ListView
             android:id="@+id/list_home_data"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:divider="@null"
             />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
+<include layout="@layout/notice_items"/>
 </RelativeLayout>

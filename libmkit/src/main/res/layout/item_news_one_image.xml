@@ -1,21 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/style1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:orientation="vertical"
-    android:background="#4444"
-    android:paddingTop="5dp"
     android:paddingBottom="5dp"
-    android:paddingLeft="3dp"
-    android:paddingRight="3dp">
+    android:paddingRight="16dp"
+    android:paddingLeft="16dp">
     <LinearLayout
+        android:id="@+id/style1"
+        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:paddingRight="16dp">
+       >
         <ImageView
             android:id="@+id/image1"
             android:layout_width="110dp"
@@ -30,6 +29,7 @@
             android:orientation="vertical">
             <TextView
                 android:id="@+id/title1"
+                android:lines="3"
                 android:textColor="@color/black"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
@@ -39,6 +39,11 @@
     <TextView
         android:id="@+id/bottom_view_style1"
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="15dp"
         />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+
+        android:background="@color/txt_E3E3E3"/>
 </LinearLayout>

@@ -52,7 +52,7 @@ public class HttpHandler {
         authorizedUrlBuilder = request.url().newBuilder()
                 .addQueryParameter("mos", "1")
                 .addQueryParameter("net", "1")
-                .addQueryParameter("uid", "329873743sss")
+                .addQueryParameter("uid", "3743sss")
                 .addQueryParameter("cid", "32")
                 .addQueryParameter("dcid", "2000")
                 .addQueryParameter("mver", "2.4.2")

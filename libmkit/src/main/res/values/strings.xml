@@ -3,4 +3,5 @@
     <string name="key">123123</string>
     <string name="ss_pattern_update">Found %1$d articles for you</string>
     <string name="nomore">No more articles, please take a break</string>
+    <string name="nonet">Network timeout, please check your network connection.</string>
 </resources>

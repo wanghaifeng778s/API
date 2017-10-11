@@ -11,11 +11,11 @@
         android:layout_height="40dp"
         android:textAllCaps="false"
         android:background="@color/white"
-        app:tl_indicator_color="#FB1C4B"
+        app:tl_indicator_color="@color/colorPrimary"
         app:tl_indicator_height="2dp"
         app:tl_indicator_width_equal_title="true"
         app:tl_textBold="SELECT"
-        app:tl_textSelectColor="#FB1C4B"
+        app:tl_textSelectColor="@color/colorPrimary"
         app:tl_textUnselectColor="#303030"
         app:tl_textsize="14sp" />
 

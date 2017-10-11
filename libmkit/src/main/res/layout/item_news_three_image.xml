@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/style2"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:orientation="vertical"
+    android:paddingBottom="5dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:lines="2"
+        android:textColor="@color/black"
+        android:id="@+id/tv_t_title"/>
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
+        <ImageView
+            android:id="@+id/img_t_1"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:scaleType="centerCrop"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/img_t_2"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:scaleType="centerCrop"
+            android:layout_weight="1"
+            />
+        <TextView
+            android:layout_width="5dp"
+            android:layout_height="wrap_content" />
+        <ImageView
+            android:id="@+id/img_t_3"
+            android:layout_width="0dp"
+            android:layout_height="72dp"
+            android:scaleType="centerCrop"
+            android:layout_weight="1"
+            />
+    </LinearLayout>
+    <TextView
+        android:id="@+id/bottom_view_style1"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/txt_E3E3E3"/>
+</LinearLayout>

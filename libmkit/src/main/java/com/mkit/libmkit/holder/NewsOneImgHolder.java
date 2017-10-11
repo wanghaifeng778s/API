@@ -19,7 +19,7 @@ import org.json.JSONException;
  * Created by WHF.Javas on 2017/8/22.
  */
 
-public class NewsOneImgHolder extends BaseViewHolder<HolgaItem> {
+public class NewsOneImgHolder extends BaseViewHolder<HolgaItem> implements View.OnClickListener {
 
     private TextView title;
     private ImageView imgView;
@@ -32,6 +32,7 @@ public class NewsOneImgHolder extends BaseViewHolder<HolgaItem> {
     public void inItView(View view) {
         title = (TextView) view.findViewById(R.id.title1);
         imgView = (ImageView) view.findViewById(R.id.image1);
+        view.findViewById(R.id.style1).setOnClickListener(this);
     }
     @Override
     public void bindHolder(HolgaItem dataModel) {
@@ -50,5 +51,10 @@ public class NewsOneImgHolder extends BaseViewHolder<HolgaItem> {
     @Override
     public int getLayoutId() {
         return R.layout.item_news_one_image;
+    }
+
+    @Override
+    public void onClick(View v) {
+        onViewClick(v);
     }
 }

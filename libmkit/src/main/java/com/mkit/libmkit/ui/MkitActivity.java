@@ -57,7 +57,7 @@ public class MkitActivity extends FragmentActivity{
     private void initFragment() {
         for (int i = 0; i < cidList.size(); i++) {
             if (cidList.get(i) != null) {
-                createFragment(fragmentList,tabList);
+                createFragment(fragmentList,tabList,i);
             }
         }
         susPagerAdapter = new SusPagerAdapter(getSupportFragmentManager(), mContext, tabList, fragmentList) {
@@ -100,8 +100,8 @@ public class MkitActivity extends FragmentActivity{
         });
     }
 
-    private void createFragment(List<Fragment> fragmentList, List<String> tabList) {
-        HomeListFragment fragment = new  HomeListFragment();
+    private void createFragment(List<Fragment> fragmentList, List<String> tabList,int flag) {
+        HomeListFragment fragment = HomeListFragment.getInstance(flag);
         fragment.setTabTitle(tabList.get(tabList.size() - 1));
         fragmentList.add(fragment);
     }
