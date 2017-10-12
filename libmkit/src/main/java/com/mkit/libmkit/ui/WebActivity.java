@@ -2,21 +2,25 @@ package com.mkit.libmkit.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.widget.ViewDragHelper;
 import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.mkit.libmkit.R;
 import com.mkit.libmkit.api.API;
 import com.mkit.libmkit.bean.HolgaResultDetail;
+import com.mkit.libmkit.helper.SwipeHelper;
 import com.mkit.libmkit.utils.CSSUtil;
 import com.mkit.libmkit.utils.CompleteDate;
 import com.mkit.libmkit.utils.MyDateUtils;
@@ -39,7 +43,6 @@ public class WebActivity extends FragmentActivity {
     private ImageView img_author;
     private TextView tv_author;
     private TextView tv_data;
-    private TextView tv_detail_title;
     private WebView webView;
     private Context mContext;
     private String mContent;
@@ -59,6 +62,7 @@ public class WebActivity extends FragmentActivity {
     private String sImgStr;
     private int cId;
     private String tid;
+    private String subscribeJson;
 
     public static final String MTITLE="title";
     public static final String MATIME="time";
@@ -68,15 +72,29 @@ public class WebActivity extends FragmentActivity {
     public static final String CID="cid";
     public static final String SIMGSTR="imgs";
     public static final String UUID="uuid";
+    public static final String SUBSCRIBEJSON="subscribeJson";
     private ImageView defaultView;
     private LinearLayout network_error;
     private ImageView refresh;
+    private String headimage;
+    private String subName;
+    private RelativeLayout lay_defaultView;
+
+    private SwipeHelper mSwipeHelper;
 
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webdetail_activity);
+
+        /*
+        滑动退出
+         */
+        mSwipeHelper = new SwipeHelper(this);
+        mSwipeHelper.onActivityCreate();
+        mSwipeHelper.setSwipeEdge(ViewDragHelper.EDGE_LEFT);
+
         mContext=this;
         inItData();
         inItView();
@@ -84,26 +102,37 @@ public class WebActivity extends FragmentActivity {
         getDetailData();
     }
 
-   /*
-   View 初始化
-    */
+    @Override
+    protected void onPostCreate(@Nullable Bundle savedInstanceState) {
+        super.onPostCreate(savedInstanceState);
+        mSwipeHelper.onPostCreate();
+    }
+
+    /*
+       View 初始化
+        */
     private void inItView() {
         img_back = ((ImageView) findViewById(R.id.img_detail_back));
         img_author = ((ImageView) findViewById(R.id.img_author));
         refresh = ((ImageView) findViewById(R.id.refresh));
         defaultView = ((ImageView) findViewById(R.id.defaultView));
+
         tv_author = ((TextView) findViewById(R.id.tv_author_name));
         tv_data = ((TextView) findViewById(R.id.tv_data));
-        tv_detail_title = ((TextView) findViewById(R.id.tv_detail_title));
         webView = ((WebView) findViewById(R.id.web_view));
         network_error = ((LinearLayout) findViewById(R.id.network_error));
-
+        lay_defaultView = ((RelativeLayout) findViewById(R.id.lay_defaultView));
 
         Glide.with(mContext)
                 .load(R.raw.rozbuzz)
                 .asGif()
                 .into(defaultView);
-
+        Glide.with(mContext)
+                .load(headimage)
+                .into(img_author);
+        tv_author.setText(mDomain);
+        tv_data.setText(CompleteDate.CurTime(mAtime));
+        webView.setScrollContainer(false);
         img_back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -131,7 +160,12 @@ public class WebActivity extends FragmentActivity {
         tid=getIntent().getStringExtra(UUID);
         cId = getIntent().getIntExtra(CID, 0);
         sImgStr = getIntent().getStringExtra(SIMGSTR);
+        subscribeJson = getIntent().getStringExtra(SUBSCRIBEJSON);
+
         try {
+            /*
+            详情页中图片个数用于显示填充默认图
+             */
             JSONArray jsonArray = new JSONArray(sImgStr);
             mImages = new ArrayList<>();
             if (jsonArray != null) {
@@ -139,6 +173,14 @@ public class WebActivity extends FragmentActivity {
                     mImages.add(jsonArray.get(i).toString());
                 }
             }
+
+            /*
+            获取头条号信息
+             */
+            JSONObject subJson=new JSONObject(subscribeJson);
+            headimage = subJson.getString("headimage");
+            subName = subJson.getString("name");
+
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -158,14 +200,14 @@ public class WebActivity extends FragmentActivity {
                     mContent=body.page.holgaDetails.get(0).getTcontent();
                     loadWeb();
                 }else {
-                    defaultView.setVisibility(View.GONE);
+                    lay_defaultView.setVisibility(View.GONE);
                     network_error.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
             public void onFailure(Call<HolgaResultDetail> call, Throwable t) {
-                defaultView.setVisibility(View.GONE);
+                lay_defaultView.setVisibility(View.GONE);
                 network_error.setVisibility(View.VISIBLE);
             }
         });
@@ -182,10 +224,16 @@ public class WebActivity extends FragmentActivity {
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setSupportMultipleWindows(true);
         webView.setWebViewClient(new WebViewClient(){
+
+            @Override
+            public void onPageStarted(WebView view, String url, Bitmap favicon) {
+                super.onPageStarted(view, url, favicon);
+                lay_defaultView.setVisibility(View.GONE);
+            }
+
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
-                defaultView.setVisibility(View.GONE);
             }
         });
     }
@@ -215,7 +263,7 @@ public class WebActivity extends FragmentActivity {
                     .append("<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no\">")).toString();
         }
 
-        linkCss = formatHtml(linkCss, mTitle, mAtime,mDomain);
+        linkCss = formatHtml(linkCss, mTitle, "","");
 
         fin = new StringBuilder(css).append(linkCss).append(con).toString();
 

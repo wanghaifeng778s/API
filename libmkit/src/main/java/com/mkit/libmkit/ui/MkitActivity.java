@@ -20,12 +20,12 @@ import java.util.List;
  * Created by WHF.Javas on 2017/10/9.
  */
 
-public class MkitActivity extends FragmentActivity{
+public class MkitActivity extends FragmentActivity {
 
 
     private SusPagerAdapter susPagerAdapter;
     private Context mContext;
-    private List<String> tabList, cidList;
+    private List<String> tabList;
     private List<Fragment> fragmentList;
     private ViewPager viewPager;
     private SlidingTabLayout tabLayout;
@@ -35,9 +35,9 @@ public class MkitActivity extends FragmentActivity{
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.mkit_activity);
-        mContext=this;
-        viewPager=(ViewPager) findViewById(R.id.viewPager);
-        tabLayout=(SlidingTabLayout) findViewById(R.id.tabLayout);
+        mContext = this;
+        viewPager = (ViewPager) findViewById(R.id.viewPager);
+        tabLayout = (SlidingTabLayout) findViewById(R.id.tabLayout);
         fragmentList = new ArrayList<>();
         addChannel();
         initFragment();
@@ -45,20 +45,19 @@ public class MkitActivity extends FragmentActivity{
 
     private void addChannel() {
         tabList = new ArrayList<>();
-        cidList = new ArrayList<>();
         tabList.clear();
-        cidList.clear();
-        for (int i = 0; i < 2; i++) {
-                tabList.add("woshi"+i);
-                cidList.add("wo"+i);
-        }
+        tabList.add("For U");
+        tabList.add("Sport");
+        tabList.add("Fashion");
+        tabList.add("India");
+        tabList.add("Technology");
+        tabList.add("Astrology");
+
     }
 
     private void initFragment() {
-        for (int i = 0; i < cidList.size(); i++) {
-            if (cidList.get(i) != null) {
-                createFragment(fragmentList,tabList,i);
-            }
+        for (int i = 0; i < tabList.size(); i++) {
+            createFragment(fragmentList, tabList, i);
         }
         susPagerAdapter = new SusPagerAdapter(getSupportFragmentManager(), mContext, tabList, fragmentList) {
 
@@ -100,7 +99,7 @@ public class MkitActivity extends FragmentActivity{
         });
     }
 
-    private void createFragment(List<Fragment> fragmentList, List<String> tabList,int flag) {
+    private void createFragment(List<Fragment> fragmentList, List<String> tabList, int flag) {
         HomeListFragment fragment = HomeListFragment.getInstance(flag);
         fragment.setTabTitle(tabList.get(tabList.size() - 1));
         fragmentList.add(fragment);

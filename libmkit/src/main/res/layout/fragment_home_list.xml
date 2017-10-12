@@ -15,7 +15,9 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@null"
+            android:scrollbars="none"
             />
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+    <include layout="@layout/item_network_error"/>
 <include layout="@layout/notice_items"/>
 </RelativeLayout>
