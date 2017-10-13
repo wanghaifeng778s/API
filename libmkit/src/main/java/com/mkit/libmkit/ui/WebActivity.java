@@ -88,6 +88,8 @@ public class WebActivity extends FragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.webdetail_activity);
 
+
+
         /*
         滑动退出
          */

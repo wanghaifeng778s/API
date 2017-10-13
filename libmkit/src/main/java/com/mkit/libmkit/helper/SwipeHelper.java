@@ -1,6 +1,6 @@
 package com.mkit.libmkit.helper;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.view.LayoutInflater;
 
 import com.mkit.libmkit.R;
@@ -12,10 +12,11 @@ import com.mkit.libmkit.base.BaseSwipeLayout;
  */
 public class SwipeHelper {
 
-    private Activity mActivity;
+    private FragmentActivity mActivity;
     private BaseSwipeLayout mBaseSwipeLayout;
 
-    public SwipeHelper(Activity activity) {
+
+    public SwipeHelper(FragmentActivity activity) {
         this.mActivity = activity;
     }
 
@@ -24,8 +25,10 @@ public class SwipeHelper {
                 .inflate(R.layout.swipe_layout, null);
         mBaseSwipeLayout.setOnFinishScroll(new BaseSwipeLayout.OnFinishScroll() {
             @Override
-            public void complete() {
-                mActivity.finish();
+            public void complete(int leftOrRight) {
+                if (leftOrRight==0){
+                    mActivity.finish();
+                }
             }
         });
     }

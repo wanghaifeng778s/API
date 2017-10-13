@@ -81,6 +81,11 @@
     public *;
     }
 
+ #如果引用了v4或者v7包
+  -dontwarn android.support.**
+    #如果有引用v4包可以添加下面这行
+    -keep public class * extends android.support.v4.app.Fragment
+
     #-keep class **{*;}
     -keepclassmembers class * extends android.support.v4.app.FragmentActivity{
         public void *(android.view.View);

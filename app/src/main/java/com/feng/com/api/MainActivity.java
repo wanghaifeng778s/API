@@ -7,8 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
-import com.mkit.libmkit.ui.MkitActivity;
-
 
 public class MainActivity extends AppCompatActivity {
 
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void getData() {
-        Intent intent=new Intent(mContext, MkitActivity.class);
+        Intent intent=new Intent(mContext, SecondActivity.class);
         startActivity(intent);
     }
 }
