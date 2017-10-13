@@ -15,7 +15,7 @@ android {
     }
     buildTypes {
         release {
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField "String", "KEY", "\"24634617\""
             buildConfigField "String", "APP_SECRET", "\"adedf24243b6ae4e0e0bee109593d193\""

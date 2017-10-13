@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * 2016/5/28.
  */
-public class HolgaResult {
+public class HolgaResult implements IHolgaItem{
     public String scode;
     public Page page;
     public String itemMode;

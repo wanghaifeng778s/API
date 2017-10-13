@@ -9,4 +9,8 @@
     <color name="color_fa">#fafafa</color>
     <color name="galry">#444</color>
     <color name="txt_E3E3E3">#E3E3E3</color>
+    <!--last read-->
+    <color name="last_read">#f4511e</color>
+    <color name="last_read_solid">#ffe8ed</color>
+    <color name="last_read_border">#ffccd7</color>
 </resources>

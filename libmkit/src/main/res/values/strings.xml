@@ -4,4 +4,6 @@
     <string name="ss_pattern_update">Found %1$d articles for you</string>
     <string name="nomore">No more articles, please take a break</string>
     <string name="nonet">Network timeout, please check your network connection.</string>
+    <!--lastread-->
+    <string name="lastreadtext">Here last time, Tap to refresh</string>
 </resources>

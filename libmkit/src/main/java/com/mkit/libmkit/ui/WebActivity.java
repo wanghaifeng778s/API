@@ -46,7 +46,7 @@ public class WebActivity extends FragmentActivity {
     private WebView webView;
     private Context mContext;
     private String mContent;
-    private boolean no_pic=false;
+    private boolean no_pic = false;
     private String linkCss;
     private String css;
     private String fin;
@@ -64,15 +64,15 @@ public class WebActivity extends FragmentActivity {
     private String tid;
     private String subscribeJson;
 
-    public static final String MTITLE="title";
-    public static final String MATIME="time";
-    public static final String MDOMAIN="domain";
-    public static final String MURL="url";
-    public static final String SID="id";
-    public static final String CID="cid";
-    public static final String SIMGSTR="imgs";
-    public static final String UUID="uuid";
-    public static final String SUBSCRIBEJSON="subscribeJson";
+    public static final String MTITLE = "title";
+    public static final String MATIME = "time";
+    public static final String MDOMAIN = "domain";
+    public static final String MURL = "url";
+    public static final String SID = "id";
+    public static final String CID = "cid";
+    public static final String SIMGSTR = "imgs";
+    public static final String UUID = "uuid";
+    public static final String SUBSCRIBEJSON = "subscribeJson";
     private ImageView defaultView;
     private LinearLayout network_error;
     private ImageView refresh;
@@ -95,7 +95,7 @@ public class WebActivity extends FragmentActivity {
         mSwipeHelper.onActivityCreate();
         mSwipeHelper.setSwipeEdge(ViewDragHelper.EDGE_LEFT);
 
-        mContext=this;
+        mContext = this;
         inItData();
         inItView();
         webSetSet();
@@ -147,37 +147,27 @@ public class WebActivity extends FragmentActivity {
         });
 
     }
+
     /*
     获取传值数据
      */
     private void inItData() {
         cssname = "holga.css";
-        mTitle=getIntent().getStringExtra(MTITLE);
-        mAtime=getIntent().getStringExtra(MATIME);
-        mDomain=getIntent().getStringExtra(MDOMAIN);
-        mUrl=getIntent().getStringExtra(MURL);
-        sid=getIntent().getStringExtra(SID);
-        tid=getIntent().getStringExtra(UUID);
+        mTitle = getIntent().getStringExtra(MTITLE);
+        mAtime = getIntent().getStringExtra(MATIME);
+        mDomain = getIntent().getStringExtra(MDOMAIN);
+        mUrl = getIntent().getStringExtra(MURL);
+        sid = getIntent().getStringExtra(SID);
+        tid = getIntent().getStringExtra(UUID);
         cId = getIntent().getIntExtra(CID, 0);
         sImgStr = getIntent().getStringExtra(SIMGSTR);
         subscribeJson = getIntent().getStringExtra(SUBSCRIBEJSON);
 
         try {
             /*
-            详情页中图片个数用于显示填充默认图
-             */
-            JSONArray jsonArray = new JSONArray(sImgStr);
-            mImages = new ArrayList<>();
-            if (jsonArray != null) {
-                for (int i = 0; i < jsonArray.length(); i++) {
-                    mImages.add(jsonArray.get(i).toString());
-                }
-            }
-
-            /*
             获取头条号信息
              */
-            JSONObject subJson=new JSONObject(subscribeJson);
+            JSONObject subJson = new JSONObject(subscribeJson);
             headimage = subJson.getString("headimage");
             subName = subJson.getString("name");
 
@@ -191,15 +181,15 @@ public class WebActivity extends FragmentActivity {
      */
     private void getDetailData() {
         API.getComMkit(mContext).getDetailArticle("readsubs",
-                tid,cId,"0","0","0","1000",0).enqueue(new Callback<HolgaResultDetail>() {
+                tid, cId, "0", "0", "0", "1000", 0).enqueue(new Callback<HolgaResultDetail>() {
             @Override
             public void onResponse(Call<HolgaResultDetail> call, Response<HolgaResultDetail> response) {
-                if (response.body() != null && response.body().page.holgaDetails.size() != 0){
+                if (response.body() != null && response.body().page.holgaDetails.size() != 0) {
                     network_error.setVisibility(View.GONE);
                     HolgaResultDetail body = response.body();
-                    mContent=body.page.holgaDetails.get(0).getTcontent();
+                    mContent = body.page.holgaDetails.get(0).getTcontent();
                     loadWeb();
-                }else {
+                } else {
                     lay_defaultView.setVisibility(View.GONE);
                     network_error.setVisibility(View.VISIBLE);
                 }
@@ -223,7 +213,7 @@ public class WebActivity extends FragmentActivity {
         settings.setSupportZoom(true);
         settings.setJavaScriptCanOpenWindowsAutomatically(true);
         settings.setSupportMultipleWindows(true);
-        webView.setWebViewClient(new WebViewClient(){
+        webView.setWebViewClient(new WebViewClient() {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
@@ -263,16 +253,21 @@ public class WebActivity extends FragmentActivity {
                     .append("<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no\">")).toString();
         }
 
-        linkCss = formatHtml(linkCss, mTitle, "","");
+        linkCss = formatHtml(linkCss, mTitle, "", "");
 
         fin = new StringBuilder(css).append(linkCss).append(con).toString();
 
         try {
-            JSONArray jsonArray = new JSONArray(getIntent().getStringExtra("importImage"));
+            JSONArray jsonArray = new JSONArray(sImgStr);
+            mImages = new ArrayList<>();
             importImage = new ArrayList<>();
             importW = new ArrayList<>();
             List<Integer> list = new ArrayList();
             for (int i = 0; i < jsonArray.length(); i++) {
+             /*
+             详情页中图片个数用于显示填充默认图
+             */
+                mImages.add(jsonArray.get(i).toString());
                 JSONObject jsonObject = (JSONObject) jsonArray.get(i);
                 importW.add(jsonObject.getString("w"));
                 importImage.add(jsonObject.getString("h"));

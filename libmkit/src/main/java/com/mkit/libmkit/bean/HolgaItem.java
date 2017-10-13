@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * 2016/5/28.
  */
-public class HolgaItem {
+public class HolgaItem implements IHolgaItem {
     private Long id;
 
     private int way;

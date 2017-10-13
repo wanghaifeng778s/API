@@ -9,7 +9,6 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import okhttp3.HttpUrl;
@@ -53,7 +52,7 @@ public class HttpHandler {
         authorizedUrlBuilder = request.url().newBuilder()
                 .addQueryParameter("mos", "1")
                 .addQueryParameter("net", "1")
-                .addQueryParameter("uid", "35743sss"+ new Random().nextInt(99))
+                .addQueryParameter("uid", "35743ddsss")
                 .addQueryParameter("cid", "32")
                 .addQueryParameter("dcid", "2000")
                 .addQueryParameter("mver", "2.4.2")

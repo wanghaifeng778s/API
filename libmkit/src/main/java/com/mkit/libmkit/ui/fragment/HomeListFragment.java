@@ -21,6 +21,7 @@ import com.mkit.libmkit.base.BaseAdapter;
 import com.mkit.libmkit.base.BaseFragment;
 import com.mkit.libmkit.bean.HolgaItem;
 import com.mkit.libmkit.bean.HolgaResult;
+import com.mkit.libmkit.bean.IHolgaItem;
 import com.mkit.libmkit.ui.WebActivity;
 import com.mkit.libmkit.ui.adapter.NewsListAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -31,6 +32,7 @@ import com.scwang.smartrefresh.layout.header.BezierRadarHeader;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import com.scwang.smartrefresh.layout.listener.OnRefreshLoadmoreListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -47,20 +49,21 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
     private ListView listView;
     private NewsListAdapter listAdapter;
     private boolean isViewFirstPrepared;
-    public static final String FLAG="flag";
+    public static final String FLAG = "flag";
     private int flag;
     private RelativeLayout notify_view;
     private TextView notify_view_text;
     private LinearLayout network_error;
 
+
     @Override
     protected void lazyLoad() {
     }
 
-    public static HomeListFragment getInstance(int flag){
+    public static HomeListFragment getInstance(int flag) {
         Bundle bundle = new Bundle();
         bundle.putInt(HomeListFragment.FLAG, flag);
-        HomeListFragment homeListFragment=new HomeListFragment();
+        HomeListFragment homeListFragment = new HomeListFragment();
         homeListFragment.setArguments(bundle);
         return homeListFragment;
     }
@@ -69,7 +72,7 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            flag = getArguments().getInt(FLAG,0);
+            flag = getArguments().getInt(FLAG, 0);
         }
     }
 
@@ -83,9 +86,9 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
     protected void initData(View view, Bundle savedInstanceState) {
         refreshLayout = (SmartRefreshLayout) view.findViewById(R.id.refreshLayout);
         listView = (ListView) view.findViewById(R.id.list_home_data);
-        notify_view_text=(TextView)view.findViewById(R.id.notify_view_text);
+        notify_view_text = (TextView) view.findViewById(R.id.notify_view_text);
         notify_view = ((RelativeLayout) view.findViewById(R.id.notify_view));
-        network_error = ((LinearLayout)view.findViewById(R.id.network_error));
+        network_error = ((LinearLayout) view.findViewById(R.id.network_error));
 
         listAdapter = new NewsListAdapter(mContext);
         listAdapter.setOnViewClickListener(this);
@@ -98,8 +101,8 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
         refreshLayout.setRefreshFooter(new BallPulseFooter(mContext).setSpinnerStyle(SpinnerStyle.Scale));
         refreshLayout.setPrimaryColors(R.color.galry);
         refreshLayout.setReboundDuration(100);//回弹动画时长（毫秒）
-        if (flag==0){
-            isViewFirstPrepared=true;
+        if (flag == 0) {//第一个fragment 出现调用自动刷新
+            isViewFirstPrepared = true;
             refreshLayout.autoRefresh();
         }
 
@@ -111,12 +114,12 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
         });
     }
 
-        @Override
+    @Override
     protected void onVisible() {
         super.onVisible();
-        if (refreshLayout != null&&!isViewFirstPrepared) {
+        if (refreshLayout != null && !isViewFirstPrepared) {
             refreshLayout.autoRefresh();
-            isViewFirstPrepared=true;
+            isViewFirstPrepared = true;
         }
     }
 
@@ -130,17 +133,32 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
                 if (response.body() != null && response.body().page != null
                         && response.body().page.holgaItems != null
                         && response.body().page.holgaItems.size() > 0) {
-                    List<HolgaItem> holgaItems = response.body().page.holgaItems;
-                    showNotice(0,holgaItems.size()+"");
-                    listAdapter.notifyDataSetChanged(count, holgaItems);
+                    List<IHolgaItem> holgaItems = new ArrayList<>();
+                    holgaItems.addAll(response.body().page.holgaItems);
+                    int size = holgaItems.size();
+                    boolean rFlag=false;
+                    if (listAdapter.getData().size() != 0) {
+                        if (count == -1) {
+                            rFlag=true;
+                            size--;
+                        }
+                    }
+                    showNotice(0,size + "");
+                    listAdapter.notifyDataSetChanged(count, holgaItems,rFlag);
                     network_error.setVisibility(View.GONE);
-                }else {
+
+                } else {
                     showNotice(1, getResources().getString(R.string.nomore));
-                    if (listAdapter.getData().size()==0) {
+                    if (listAdapter.getData().size() == 0) {
                         network_error.setVisibility(View.VISIBLE);
                     }
                 }
-                if (count == 0) {
+
+
+                /*
+                无论上拉还是下拉全都停止刷新状态
+                 */
+                if (count == -1) {
                     refreshLayout.finishRefresh();
                 } else {
                     refreshLayout.finishLoadmore();
@@ -150,11 +168,11 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
 
             @Override
             public void onFailure(Call<HolgaResult> call, Throwable t) {
-                if (listAdapter.getData().size()==0) {
+                if (listAdapter.getData().size() == 0) {
                     network_error.setVisibility(View.VISIBLE);
                 }
                 showNotice(1, getResources().getString(R.string.nomore));
-                if (count == 0) {
+                if (count == -1) {
                     refreshLayout.finishRefresh();
                 } else {
                     refreshLayout.finishLoadmore();
@@ -165,7 +183,7 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
 
     @Override
     public void onRefresh(RefreshLayout refreshlayout) {
-        getData(0);
+        getData(-1);
     }
 
     @Override
@@ -175,21 +193,27 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
 
     @Override
     public void onViewClick(View view, int position) {
-        HolgaItem holgaItem = listAdapter.getData().get(position);
-        int i = view.getId();
-        if (i == R.id.style1||i==R.id.style2) {
-            Intent intent=new Intent(mContext, WebActivity.class);
-            intent.putExtra(WebActivity.MATIME,holgaItem.getAtime());
-            intent.putExtra(WebActivity.MDOMAIN,holgaItem.getDomain());
-            intent.putExtra(WebActivity.MTITLE,holgaItem.getTitle());
-            intent.putExtra(WebActivity.MURL,holgaItem.getUrl());
-            intent.putExtra(WebActivity.SIMGSTR,holgaItem.getImportImage());
-            intent.putExtra(WebActivity.SID,holgaItem.getSid());
-            intent.putExtra(WebActivity.CID,holgaItem.getCid());
-            intent.putExtra(WebActivity.UUID,holgaItem.getUuid());
-            intent.putExtra(WebActivity.SUBSCRIBEJSON,holgaItem.getSubscribeJson());
-            mContext.startActivity(intent);
+        IHolgaItem iholgaItem = listAdapter.getData().get(position);
+        if (iholgaItem instanceof HolgaItem) {
+            HolgaItem holgaItem = (HolgaItem) iholgaItem;
+            int i = view.getId();
+            if (i == R.id.style1 || i == R.id.style2) {
+                Intent intent = new Intent(mContext, WebActivity.class);
+                intent.putExtra(WebActivity.MATIME, holgaItem.getAtime());
+                intent.putExtra(WebActivity.MDOMAIN, holgaItem.getDomain());
+                intent.putExtra(WebActivity.MTITLE, holgaItem.getTitle());
+                intent.putExtra(WebActivity.MURL, holgaItem.getUrl());
+                intent.putExtra(WebActivity.SIMGSTR, holgaItem.getImportImage());
+                intent.putExtra(WebActivity.SID, holgaItem.getSid());
+                intent.putExtra(WebActivity.CID, holgaItem.getCid());
+                intent.putExtra(WebActivity.UUID, holgaItem.getUuid());
+                intent.putExtra(WebActivity.SUBSCRIBEJSON, holgaItem.getSubscribeJson());
+                mContext.startActivity(intent);
 
+            }
+        } else {
+            refreshLayout.autoRefresh();
+            listView.setSelectionAfterHeaderView();
         }
     }
 

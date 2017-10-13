@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/lastreaditem"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+    android:background="@color/color_fa"
+    android:paddingBottom="8dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/lastreadshape">
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true">
+
+            <TextView
+                android:id="@+id/lastreadtext"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="@string/lastreadtext"
+                android:textColor="#fb1c4b"
+                android:textSize="@dimen/lastread" />
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="6dp"
+                android:layout_toRightOf="@+id/lastreadtext"
+                android:cropToPadding="true"
+                android:padding="3dp"
+                android:src="@mipmap/small_refresh" />
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>
