@@ -10,23 +10,25 @@
     android:paddingRight="16dp">
 
     <TextView
+        android:layout_marginTop="14dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:lines="2"
+        android:textSize="16sp"
         android:textColor="@color/black"
         android:id="@+id/tv_t_title"/>
     <LinearLayout
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="79.5dp"
         android:orientation="horizontal"
         >
         <ImageView
             android:id="@+id/img_t_1"
             android:layout_width="0dp"
-            android:layout_height="72dp"
-            android:scaleType="centerCrop"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:scaleType="centerCrop"
             />
         <TextView
             android:layout_width="5dp"
@@ -34,9 +36,9 @@
         <ImageView
             android:id="@+id/img_t_2"
             android:layout_width="0dp"
-            android:layout_height="72dp"
-            android:scaleType="centerCrop"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:scaleType="centerCrop"
             />
         <TextView
             android:layout_width="5dp"
@@ -44,30 +46,34 @@
         <ImageView
             android:id="@+id/img_t_3"
             android:layout_width="0dp"
-            android:layout_height="72dp"
-            android:scaleType="centerCrop"
+            android:layout_height="match_parent"
             android:layout_weight="1"
+            android:scaleType="centerCrop"
             />
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
+        android:layout_marginTop="12.5dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
+            android:textSize="12sp"
+            android:textColor="@color/color_b2"
             android:text="Astrology King"/>
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:textSize="12sp"
+            android:textColor="@color/color_b2"
             android:text="23-Sep 06：15"/>
     </RelativeLayout>
     <TextView
         android:id="@+id/bottom_view_style1"
         android:layout_width="match_parent"
-        android:layout_height="15dp"
+        android:layout_height="14dp"
         />
     <TextView
         android:layout_width="match_parent"

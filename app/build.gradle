@@ -30,7 +30,7 @@ android {
         debug {
             signingConfig signingConfigs.mykey
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            minifyEnabled true
+            minifyEnabled false
         }
     }
     repositories {

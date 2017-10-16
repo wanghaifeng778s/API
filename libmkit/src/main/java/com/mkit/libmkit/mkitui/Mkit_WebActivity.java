@@ -125,7 +125,6 @@ public class Mkit_WebActivity extends FragmentActivity {
 
         Glide.with(mContext)
                 .load(R.raw.rozbuzz)
-                .asGif()
                 .into(defaultView);
         Glide.with(mContext)
                 .load(headimage)
