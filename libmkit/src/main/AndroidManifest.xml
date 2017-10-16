@@ -4,8 +4,8 @@
 
     <application android:allowBackup="true" android:label="@string/app_name"
         android:supportsRtl="true">
-        <activity android:name=".ui.MkitActivity"/>
-        <activity android:name=".ui.Mkit_WebActivity"
+        <activity android:name=".mkitui.MkitActivity"/>
+        <activity android:name=".mkitui.Mkit_WebActivity"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
 
     </application>
