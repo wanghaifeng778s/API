@@ -1,7 +1,6 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.github.dcendents.android-maven'
-apply plugin: 'com.jfrog.bintray'
-version = "1.0.3"
+apply plugin: 'maven'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 25
@@ -29,6 +28,12 @@ android {
     }
     lintOptions {
         abortOnError false
+        checkReleaseBuilds false
+    }
+
+    tasks.withType(Javadoc) {
+        options.addStringOption('Xdoclint:none', '-quiet')
+        options.addStringOption('encoding', 'UTF-8')
     }
 
 }
@@ -49,77 +54,91 @@ dependencies {
     compile 'org.jsoup:jsoup:1.9.2'
 //    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
 }
-def siteUrl = 'https://github.com/wanghaifeng778s'    // project homepage
-def gitUrl = 'https://github.com/wanghaifeng778s/libmkit.git' // project git
-group = "com.haifeng.mkit"                                                          // #CONFIG# // Maven Group ID for the artifact (pageckage name is ok)
 
-install {
-    repositories.mavenInstaller {
-        // This generates POM.xml with proper parameters
-        pom {
-            project {
-                packaging 'aar'
-                name 'API New API   For Android'                                   // #CONFIG# // project title
-                url siteUrl
-                // Set your license
-                licenses {
-                    license {//                        name 'The Apache Software License, Version 2.0'
-                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        id 'haifeng'                                           // #CONFIG# // your user id (you can write your nickname)
-                        name 'hai.feng'                                       // #CONFIG# // your user name
-                        email '1695391081@qq.com'                               // #CONFIG# // your email
-                    }
-                }
-                scm {
-                    connection gitUrl
-                    developerConnection gitUrl
-                    url siteUrl
-                }
-            }
-        }
-    }
+
+def packageName='com.mkit'
+def libraryVersion='1.0.0'
+publish{
+    userOrg='wanghaifeng720828'
+    groupId=packageName;
+    artifactId='libmkit'
+    description='new API'
+    publishVersion=libraryVersion
+    website='https://github.com/wanghaifeng778s'
 }
 
-task sourcesJar(type: Jar) {
-    from android.sourceSets.main.java.srcDirs
-    classifier = 'sources'
-}
 
-task javadoc(type: Javadoc) {
-    source = android.sourceSets.main.java.srcDirs
-    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
-}
-
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    // archives javadocJar
-    archives sourcesJar
-}
-
-Properties properties = new Properties()
-boolean isHasFile = false
-if (project.rootProject.file('local.properties') != null){
-    isHasFile = true
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-}
-bintray {
-    user = isHasFile ? properties.getProperty("bintray.user") : System.getenv("bintray.user")
-    key = isHasFile ? properties.getProperty("bintray.apikey") : System.getenv("bintray.apikey")
-    configurations = ['archives']
-    pkg {
-        repo = "maven"
-        name = "libmkit"                                                 // #CONFIG# project name in jcenter
-        websiteUrl = siteUrl
-        vcsUrl = gitUrl
-        licenses = ["Apache-2.0"]
-        publish = true
-    }
-}
+//def siteUrl = 'https://github.com/wanghaifeng778s'    // project homepage
+//def gitUrl = 'https://github.com/wanghaifeng778s/libmkit.git' // project git
+//group = "com.haifeng.mkit"                                                          // #CONFIG# // Maven Group ID for the artifact (pageckage name is ok)
+//
+//install {
+//    repositories.mavenInstaller {
+//        // This generates POM.xml with proper parameters
+//        pom {
+//            project {
+//                packaging 'aar'
+//                name 'API New API   For Android'                                   // #CONFIG# // project title
+//                url siteUrl
+//                // Set your license
+//                licenses {
+//                    license {//                        name 'The Apache Software License, Version 2.0'
+//                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id 'haifeng'                                           // #CONFIG# // your user id (you can write your nickname)
+//                        name 'hai.feng'                                       // #CONFIG# // your user name
+//                        email '1695391081@qq.com'                               // #CONFIG# // your email
+//                    }
+//                }
+//                scm {
+//                    connection gitUrl
+//                    developerConnection gitUrl
+//                    url siteUrl
+//                }
+//            }
+//        }
+//    }
+//}
+//
+//task sourcesJar(type: Jar) {
+//    from android.sourceSets.main.java.srcDirs
+//    classifier = 'sources'
+//}
+//
+//task javadoc(type: Javadoc) {
+//    source = android.sourceSets.main.java.srcDirs
+//    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+//
+//artifacts {
+//    // archives javadocJar
+//    archives sourcesJar
+//}
+//
+//Properties properties = new Properties()
+//boolean isHasFile = false
+//if (project.rootProject.file('local.properties') != null){
+//    isHasFile = true
+//    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+//}
+//bintray {
+//    user = isHasFile ? properties.getProperty("bintray.user") : System.getenv("bintray.user")
+//    key = isHasFile ? properties.getProperty("bintray.apikey") : System.getenv("bintray.apikey")
+//    configurations = ['archives']
+//    pkg {
+//        repo = "maven"
+//        name = "libmkit"                                                 // #CONFIG# project name in jcenter
+//        websiteUrl = siteUrl
+//        vcsUrl = gitUrl
+//        licenses = ["Apache-2.0"]
+//        publish = true
+//    }
+//}
