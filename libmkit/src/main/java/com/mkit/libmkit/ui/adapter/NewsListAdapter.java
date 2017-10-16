@@ -57,9 +57,6 @@ public class NewsListAdapter extends BaseAdapter<IHolgaItem> {
 
         IHolgaItem iHolgaItem = data.get(position);
         if (iHolgaItem instanceof HolgaItem) {
-            if (position % 4 == 0) {
-                return TYPE_1;
-            }
             return TYPE_2;
         } else {
             return TYPE_0;

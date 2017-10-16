@@ -58,14 +58,17 @@ public class NewsThreeImgHolder extends BaseViewHolder<HolgaItem> implements Vie
         }
         Glide.with(mContext)
                 .load(imgUrl1)
+                .centerCrop()
                 .placeholder(R.drawable.placehold)
                 .into(imgView1);
         Glide.with(mContext)
                 .load(imgUrl2)
+                .centerCrop()
                 .placeholder(R.drawable.placehold)
                 .into(imgView2);
         Glide.with(mContext)
                 .load(imgUrl3)
+                .centerCrop()
                 .placeholder(R.drawable.placehold)
                 .into(imgView3);
     }

@@ -11,7 +11,7 @@ import com.flyco.tablayout.SlidingTabLayout;
 import com.flyco.tablayout.listener.OnTabSelectListener;
 import com.mkit.libmkit.R;
 import com.mkit.libmkit.ui.adapter.SusPagerAdapter;
-import com.mkit.libmkit.ui.fragment.HomeListFragment;
+import com.mkit.libmkit.ui.fragment.Mkit_HomeListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -100,7 +100,7 @@ public class MkitActivity extends FragmentActivity {
     }
 
     private void createFragment(List<Fragment> fragmentList, List<String> tabList, int flag) {
-        HomeListFragment fragment = HomeListFragment.getInstance(flag);
+        Mkit_HomeListFragment fragment = Mkit_HomeListFragment.getInstance(flag);
         fragment.setTabTitle(tabList.get(tabList.size() - 1));
         fragmentList.add(fragment);
     }

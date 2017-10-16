@@ -5,6 +5,7 @@ import org.json.JSONArray;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -486,6 +487,69 @@ public class ReplaceHtmlTag {
                     div.attr("onclick", "displaymessage('" + i + "','" + fimg + "')");
                 }
 
+            }
+
+
+        }
+        Element head = document.select("head").first();
+        head.html("<script type='text/javascript'>" + "function displaymessage(" +
+                        "id" + "," + "srb" +
+                        ")"
+                        + "{"
+                        +
+                        "javascriptInterface.openImage(id,id+srb);"
+
+
+                        + "}" +
+                        "</script>"
+                //  +"<script type='text/javascript'>"+"function showzzz(){javascriptInterface.showtoast();}"+"</script>" send act to native
+
+        );
+
+
+        content = document.toString();
+        return content;
+
+
+    }
+
+    public static String replaceSampleSrcs(String content) {
+        List<String> listsrc = new ArrayList<>();
+        String dis = "1080";
+        int size;
+
+        if (Integer.valueOf(dis) < 500) {
+            size = 290;
+        } else if (Integer.valueOf(dis) < 900) {
+            size = 360;
+        } else {
+            size = 400;
+        }
+        Document document;
+        document = Jsoup.parse(content);
+        Elements img = document.select("img");
+        for (int i = 0; i < img.size(); i++) {
+            if (content != null) {
+
+                Element div = img.get(i);
+
+                String src = div.attr("src");
+                String fheight = "auto";
+                String fwidth = "100%";
+
+                div.wrap("<div align=\"center\" style=\" background-color: #f2f2f2 ;width:" + fwidth + ";height:" + fheight + ";text-align: center;margin: 0 auto;\"></div>");
+                div.attr("height", fheight + "");
+                div.attr("width", fwidth);
+                div.attr("style", "display:block;");
+                div.removeAttr("srcset");
+                div.attr("onerror", "this.src='file:///android_asset/trans.png'");
+
+                int index = src.lastIndexOf(".");
+                String fimg = src.substring(0, index - 4) + "-" + size + src.substring(index);
+                listsrc.add(fimg);
+                div.attr("src", fimg);
+                div.attr("id", i + "");
+                div.attr("onclick", "displaymessage('" + i + "','" + fimg + "')");
             }
 
 

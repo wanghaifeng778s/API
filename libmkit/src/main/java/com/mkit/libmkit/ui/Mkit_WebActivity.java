@@ -26,10 +26,8 @@ import com.mkit.libmkit.utils.CompleteDate;
 import com.mkit.libmkit.utils.MyDateUtils;
 import com.mkit.libmkit.utils.ReplaceHtmlTag;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -37,7 +35,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class WebActivity extends FragmentActivity {
+public class Mkit_WebActivity extends FragmentActivity {
 
     private ImageView img_back;
     private ImageView img_author;
@@ -255,38 +253,38 @@ public class WebActivity extends FragmentActivity {
                     .append("<meta name=\"viewport\" content=\"width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no\">")).toString();
         }
 
-        linkCss = formatHtml(linkCss, mTitle, "", "");
+        linkCss = formatHtml(linkCss, mTitle, mAtime, mDomain);
 
         fin = new StringBuilder(css).append(linkCss).append(con).toString();
+        fin = ReplaceHtmlTag.replaceSampleSrcs(fin);
+//        try {
+//            JSONArray jsonArray = new JSONArray(sImgStr);
+//            mImages = new ArrayList<>();
+//            importImage = new ArrayList<>();
+//            importW = new ArrayList<>();
+//            List<Integer> list = new ArrayList();
+//            for (int i = 0; i < jsonArray.length(); i++) {
+//             /*
+//             详情页中图片个数用于显示填充默认图
+//             */
+//                mImages.add(jsonArray.get(i).toString());
+//                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+//                importW.add(jsonObject.getString("w"));
+//                importImage.add(jsonObject.getString("h"));
+//
+//                String url = jsonObject.getString("url");
+//                if (url.substring(url.length() - 4, url.length()).contains("gif")) {
+//                    list.add(1);
+//                } else {
+//                    list.add(0);
+//                }
+//            }
+//            fin = ReplaceHtmlTag.replaceSampleSrcs(fin, mImages, importImage, importW, list);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
-        try {
-            JSONArray jsonArray = new JSONArray(sImgStr);
-            mImages = new ArrayList<>();
-            importImage = new ArrayList<>();
-            importW = new ArrayList<>();
-            List<Integer> list = new ArrayList();
-            for (int i = 0; i < jsonArray.length(); i++) {
-             /*
-             详情页中图片个数用于显示填充默认图
-             */
-                mImages.add(jsonArray.get(i).toString());
-                JSONObject jsonObject = (JSONObject) jsonArray.get(i);
-                importW.add(jsonObject.getString("w"));
-                importImage.add(jsonObject.getString("h"));
-
-                String url = jsonObject.getString("url");
-                if (url.substring(url.length() - 4, url.length()).contains("gif")) {
-                    list.add(1);
-                } else {
-                    list.add(0);
-                }
-            }
-            fin = ReplaceHtmlTag.replaceSampleSrcs(fin, mImages, importImage, importW, list);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        webView.loadDataWithBaseURL(fin + "", fin + "", "text/html", "utf-8", mUrl);
+        webView.loadDataWithBaseURL("", fin + "", "text/html", "utf-8", "");
     }
 
     private static String formatHtml(String contentStr, String mTitle, String mAtime, String mDomain) {
@@ -297,6 +295,7 @@ public class WebActivity extends FragmentActivity {
                 .append(mTitle)
                 .append("</div><div class=\"info\">")
                 .append(mDomain == null ? "" : "<span  class=\"domain\">" + mDomain + "</span>")
+                .append("<Br/>")
                 .append(MyDateUtils.stringTimeFormat(mAtime) == null ? "" : "<span class=\"post_time\" >" + CompleteDate.CurTime(mAtime) + "</span >")
                 .append("</div>")
                 .toString());

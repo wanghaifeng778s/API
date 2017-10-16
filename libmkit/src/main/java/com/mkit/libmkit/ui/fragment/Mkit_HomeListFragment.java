@@ -22,7 +22,7 @@ import com.mkit.libmkit.base.BaseFragment;
 import com.mkit.libmkit.bean.HolgaItem;
 import com.mkit.libmkit.bean.HolgaResult;
 import com.mkit.libmkit.bean.IHolgaItem;
-import com.mkit.libmkit.ui.WebActivity;
+import com.mkit.libmkit.ui.Mkit_WebActivity;
 import com.mkit.libmkit.ui.adapter.NewsListAdapter;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -43,7 +43,7 @@ import retrofit2.Response;
  * Created by WHF.Javas on 2017/10/10.
  */
 
-public class HomeListFragment extends BaseFragment implements OnRefreshListener, OnRefreshLoadmoreListener, BaseAdapter.OnViewClickListener {
+public class Mkit_HomeListFragment extends BaseFragment implements OnRefreshListener, OnRefreshLoadmoreListener, BaseAdapter.OnViewClickListener {
 
     private SmartRefreshLayout refreshLayout;
     private ListView listView;
@@ -60,12 +60,12 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
     protected void lazyLoad() {
     }
 
-    public static HomeListFragment getInstance(int flag) {
+    public static Mkit_HomeListFragment getInstance(int flag) {
         Bundle bundle = new Bundle();
-        bundle.putInt(HomeListFragment.FLAG, flag);
-        HomeListFragment homeListFragment = new HomeListFragment();
-        homeListFragment.setArguments(bundle);
-        return homeListFragment;
+        bundle.putInt(Mkit_HomeListFragment.FLAG, flag);
+        Mkit_HomeListFragment mkitHomeListFragment = new Mkit_HomeListFragment();
+        mkitHomeListFragment.setArguments(bundle);
+        return mkitHomeListFragment;
     }
 
     @Override
@@ -127,12 +127,10 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
         API.getComMkit(mContext).getTestData().enqueue(new Callback<HolgaResult>() {
             @Override
             public void onResponse(Call<HolgaResult> call, Response<HolgaResult> response) {
-
-                Log.d("onResponse***", "onResponse: " + response.body() + "++++" + response.body().page.holgaItems.size());
-
                 if (response.body() != null && response.body().page != null
                         && response.body().page.holgaItems != null
                         && response.body().page.holgaItems.size() > 0) {
+                    Log.d("*****", "onResponse: "+"SSSSSSSSSSSS_1");
                     List<IHolgaItem> holgaItems = new ArrayList<>();
                     holgaItems.addAll(response.body().page.holgaItems);
                     int size = holgaItems.size();
@@ -148,6 +146,7 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
                     network_error.setVisibility(View.GONE);
 
                 } else {
+                    Log.d("*****", "onResponse: "+"SSSSSSSSSSSS_2"+response.body().itemMode);
                     showNotice(1, getResources().getString(R.string.nomore));
                     if (listAdapter.getData().size() == 0) {
                         network_error.setVisibility(View.VISIBLE);
@@ -168,6 +167,7 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
 
             @Override
             public void onFailure(Call<HolgaResult> call, Throwable t) {
+                Log.d("*****", "onResponse: "+"FFFFFFFFFFFFFF");
                 if (listAdapter.getData().size() == 0) {
                     network_error.setVisibility(View.VISIBLE);
                 }
@@ -198,16 +198,16 @@ public class HomeListFragment extends BaseFragment implements OnRefreshListener,
             HolgaItem holgaItem = (HolgaItem) iholgaItem;
             int i = view.getId();
             if (i == R.id.style1 || i == R.id.style2) {
-                Intent intent = new Intent(mContext, WebActivity.class);
-                intent.putExtra(WebActivity.MATIME, holgaItem.getAtime());
-                intent.putExtra(WebActivity.MDOMAIN, holgaItem.getDomain());
-                intent.putExtra(WebActivity.MTITLE, holgaItem.getTitle());
-                intent.putExtra(WebActivity.MURL, holgaItem.getUrl());
-                intent.putExtra(WebActivity.SIMGSTR, holgaItem.getImportImage());
-                intent.putExtra(WebActivity.SID, holgaItem.getSid());
-                intent.putExtra(WebActivity.CID, holgaItem.getCid());
-                intent.putExtra(WebActivity.UUID, holgaItem.getUuid());
-                intent.putExtra(WebActivity.SUBSCRIBEJSON, holgaItem.getSubscribeJson());
+                Intent intent = new Intent(mContext, Mkit_WebActivity.class);
+                intent.putExtra(Mkit_WebActivity.MATIME, holgaItem.getAtime());
+                intent.putExtra(Mkit_WebActivity.MDOMAIN, holgaItem.getDomain());
+                intent.putExtra(Mkit_WebActivity.MTITLE, holgaItem.getTitle());
+                intent.putExtra(Mkit_WebActivity.MURL, holgaItem.getUrl());
+                intent.putExtra(Mkit_WebActivity.SIMGSTR, holgaItem.getImportImage());
+                intent.putExtra(Mkit_WebActivity.SID, holgaItem.getSid());
+                intent.putExtra(Mkit_WebActivity.CID, holgaItem.getCid());
+                intent.putExtra(Mkit_WebActivity.UUID, holgaItem.getUuid());
+                intent.putExtra(Mkit_WebActivity.SUBSCRIBEJSON, holgaItem.getSubscribeJson());
                 mContext.startActivity(intent);
 
             }

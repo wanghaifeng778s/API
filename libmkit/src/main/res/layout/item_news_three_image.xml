@@ -49,6 +49,21 @@
             android:layout_weight="1"
             />
     </LinearLayout>
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="Astrology King"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="23-Sep 06：15"/>
+    </RelativeLayout>
     <TextView
         android:id="@+id/bottom_view_style1"
         android:layout_width="match_parent"

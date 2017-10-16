@@ -57,6 +57,34 @@
     -keepattributes Signature
 
 
+
+  #保持自定义控件类不被混淆
+  -keepclasseswithmembers class * {
+      public <init>(android.content.Context, android.util.AttributeSet);
+  }
+  #保持自定义控件类不被混淆
+  -keepclasseswithmembers class * {
+      public <init>(android.content.Context, android.util.AttributeSet, int);
+  }
+
+  -keep public class * extends android.app.Fragment
+  -keep public class * extends android.app.Activity
+
+
+    -dontwarn org.codehaus.**
+    -dontwarn java.nio.**
+    -dontwarn java.lang.invoke.**
+    -dontwarn rx.internal.util.unsafe.*
+
+
+    # okhttp
+    -dontwarn okio.**
+
+
+     -dontnote retrofit2.Platform
+     -dontnote retrofit2.Platform$IOS$MainThreadExecutor
+     -dontwarn retrofit2.Platform$Java8
+
     #retrofit2.x
     -dontwarn retrofit2.**
     -keep class retrofit2.** { *; }

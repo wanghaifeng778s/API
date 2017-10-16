@@ -21,7 +21,7 @@ import java.util.List;
  * Created by WHF.Javas on 2017/10/13.
  */
 
-public class MkitMainFragment extends BaseFragment {
+public class Mkit_MainFragment extends BaseFragment {
 
     private SusPagerAdapter susPagerAdapter;
     private List<String> tabList;
@@ -106,7 +106,7 @@ public class MkitMainFragment extends BaseFragment {
     }
 
     private void createFragment(List<Fragment> fragmentList, List<String> tabList, int flag) {
-        HomeListFragment fragment = HomeListFragment.getInstance(flag);
+        Mkit_HomeListFragment fragment = Mkit_HomeListFragment.getInstance(flag);
         fragment.setTabTitle(tabList.get(tabList.size() - 1));
         fragmentList.add(fragment);
     }
