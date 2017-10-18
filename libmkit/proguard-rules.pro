@@ -134,3 +134,4 @@
 #-----------------------------------------------------------------------------
 -keep class com.mkit.libmkit.bean.** {*;}
 -keep class com.mkit.libmkit.api.** {*;}
+-keep class com.mkit.libmkit.ui.** {*;}

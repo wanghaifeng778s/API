@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
+    android:background="@color/white"
     android:orientation="vertical"
     android:paddingBottom="5dp"
     android:paddingLeft="16dp"
@@ -13,8 +14,9 @@
         android:layout_marginTop="14dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:lines="2"
         android:textSize="16sp"
+        android:maxLines="2"
+        android:textStyle="bold"
         android:textColor="@color/black"
         android:id="@+id/tv_t_title"/>
     <LinearLayout
@@ -78,5 +80,5 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:background="@color/txt_E3E3E3"/>
+        android:background="@color/color_f1"/>
 </LinearLayout>
