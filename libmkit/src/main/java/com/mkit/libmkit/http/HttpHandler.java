@@ -1,15 +1,18 @@
 package com.mkit.libmkit.http;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.mkit.libmkit.BuildConfig;
+import com.mkit.libmkit.utils.CheckUtils;
+import com.mkit.libmkit.utils.DeviceUtil;
+import com.mkit.libmkit.utils.NetWorkChoice;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
 
 import okhttp3.HttpUrl;
@@ -24,6 +27,7 @@ import okio.Buffer;
 public class HttpHandler {
     private Request request;
     private HttpUrl.Builder authorizedUrlBuilder;
+    private Context mContext;
 
     private  String X_CA_REQUEST_MODE = "X-Ca-Request-Mode";
     private  String X_Ca_Stage = "X-Ca-Stage";
@@ -42,34 +46,44 @@ public class HttpHandler {
     private String h5="";
     private  String h6=" X-Ca-Timestamp,X-Ca-Request-Mode,X-Ca-Stage,X-Ca-Key";
 
+    private String mkit_did= "";
+
 
     Response onResponse(String httpResult, Interceptor.Chain chain, Response response) {
         return response;
     }
-
+    public HttpHandler(Context context) {
+        mContext = context;
+        mkit_did= DeviceUtil.getDeviceInfo(mContext);
+    }
     Response onRequest(Interceptor.Chain chain) throws IOException {
         h5= String.valueOf(System.currentTimeMillis());
         request = chain.request();
         authorizedUrlBuilder = request.url().newBuilder()
-                .addQueryParameter("mos", "1")
-                .addQueryParameter("net", "1")
-                .addQueryParameter("uid", "35743ddsss"+new Random().nextInt(99))
-                .addQueryParameter("cid", "32")
-                .addQueryParameter("dcid", "2000")
-                .addQueryParameter("mver", "2.4.2")
-                .addQueryParameter("appname", "RozBuzzPro")
-                .addQueryParameter("did", "1113367894ess1")
+                .addQueryParameter("uid", CheckUtils.checkUID(mContext))//用户ID
+                .addQueryParameter("pid", CheckUtils.getPID(mContext))//用户通行证ID
+                .addQueryParameter("did", mkit_did)//设备号
+                .addQueryParameter("net", NetWorkChoice.getNet(mContext))//网络状况
+                .addQueryParameter("appname", BuildConfig.APP_NAME)//appname
+                .addQueryParameter("dcid", "2000")//渠道号(小米:20000)
+                .addQueryParameter("mos", "1")//用户终端系统(0:IOS,1:Android)
+                .addQueryParameter("appversion", BuildConfig.VERSION_NAME)//版本
+//                .addQueryParameter("subjects", "weird_fun,adult_jokes,meme,gif,funny_animals,funny_fails,jokes,funny_pictures,funny_trolls,funny_cartoons")//主题号逗号分隔
+                .addQueryParameter("lang", "1")//用户语言（可选值 0:English,1:Hindi,2:Marathi,3:Tamil）
+//                .addQueryParameter("cid", "32")//频道
+//                .addQueryParameter("strategy", "32")//策略 1 频道 2 主题 3 主题下频道
+//                .addQueryParameter("pmode", "1")//机型
                 .scheme(request.url().scheme())
                 .host(request.url().host());
 
         request = request.newBuilder()
-//                .header(X_CA_REQUEST_MODE, h1)
-//                .header(X_Ca_Stage, h2)
-//                .header(X_Ca_Key, h3)
-//                .header(Accept, h4)
-//                .header(X_Ca_Timestamp, h5)
-//                .header(X_Ca_Signature_Headers, h6)
-//                .header(X_Ca_Signature, getSign())
+                .header(X_CA_REQUEST_MODE, h1)
+                .header(X_Ca_Stage, h2)
+                .header(X_Ca_Key, h3)
+                .header(Accept, h4)
+                .header(X_Ca_Timestamp, h5)
+                .header(X_Ca_Signature_Headers, h6)
+                .header(X_Ca_Signature, getSign())
                 .url(authorizedUrlBuilder.build())
                 .build();
         return chain.proceed(request);

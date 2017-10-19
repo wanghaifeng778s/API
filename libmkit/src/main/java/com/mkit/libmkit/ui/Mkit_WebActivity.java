@@ -19,7 +19,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.mkit.libmkit.R;
 import com.mkit.libmkit.api.API;
-import com.mkit.libmkit.bean.HolgaResultDetail;
+import com.mkit.libmkit.bean.NewsDetailBean;
 import com.mkit.libmkit.helper.SwipeHelper;
 import com.mkit.libmkit.utils.CSSUtil;
 import com.mkit.libmkit.utils.CompleteDate;
@@ -27,16 +27,20 @@ import com.mkit.libmkit.utils.GlideCircleTransform;
 import com.mkit.libmkit.utils.MyDateUtils;
 import com.mkit.libmkit.utils.ReplaceHtmlTag;
 
-import org.json.JSONObject;
-
-import java.util.List;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 
 public class Mkit_WebActivity extends FragmentActivity {
+
+
+    public static final String SUB_AVATAR="sub_avatar";
+    public static final String SUB_NAME="sub_name";
+    public static final String SUB_ADDTIME="sub_addtime";
+    public static final String DETAIL_TITLE="detail_title";
+    public static final String DETAIL_ID="detail_id";
+
 
     private ImageView img_back;
     private ImageView img_author;
@@ -50,37 +54,18 @@ public class Mkit_WebActivity extends FragmentActivity {
     private String linkCss;
     private String css;
     private String fin;
-    private List<String> importImage;
-    private List<String> importW;
     private String cssname;
-    private String mTitle;
-    private String mAtime;
-    private String mDomain;
-    private String mUrl;
-    private List<String> mImages;
-    private String sid;
-    private String sImgStr;
-    private int cId;
-    private String tid;
-    private String subscribeJson;
-
-    public static final String MTITLE = "title";
-    public static final String MATIME = "time";
-    public static final String MDOMAIN = "domain";
-    public static final String MURL = "url";
-    public static final String SID = "id";
-    public static final String CID = "cid";
-    public static final String SIMGSTR = "imgs";
-    public static final String UUID = "uuid";
-    public static final String SUBSCRIBEJSON = "subscribeJson";
     private ImageView defaultView;
     private LinearLayout network_error;
     private ImageView refresh;
-    private String headimage;
-    private String subName;
     private RelativeLayout lay_defaultView;
 
     private SwipeHelper mSwipeHelper;
+    private String sub_img;
+    private String sub_name;
+    private String sub_addtime;
+    private String detail_title;
+    private String detail_id;
 
 
     @Override
@@ -130,12 +115,12 @@ public class Mkit_WebActivity extends FragmentActivity {
                 .load(R.raw.rozbuzz)
                 .into(defaultView);
         Glide.with(mContext)
-                .load(headimage)
+                .load(sub_img)
                 .transform(new GlideCircleTransform(this))
                 .into(img_author);
-        tv_author.setText(mDomain);
-        tv_data.setText(CompleteDate.CurTime(mAtime));
-        tv_detail_title.setText(mTitle);
+        tv_author.setText(sub_name);
+        tv_data.setText(CompleteDate.CurTime(sub_addtime));
+        tv_detail_title.setText(detail_title);
         webView.setScrollContainer(false);
         img_back.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -157,50 +142,32 @@ public class Mkit_WebActivity extends FragmentActivity {
      */
     private void inItData() {
         cssname = "holga.css";
-        mTitle = getIntent().getStringExtra(MTITLE);
-        mAtime = getIntent().getStringExtra(MATIME);
-        mDomain = getIntent().getStringExtra(MDOMAIN);
-        mUrl = getIntent().getStringExtra(MURL);
-        sid = getIntent().getStringExtra(SID);
-        tid = getIntent().getStringExtra(UUID);
-        cId = getIntent().getIntExtra(CID, 0);
-        sImgStr = getIntent().getStringExtra(SIMGSTR);
-        subscribeJson = getIntent().getStringExtra(SUBSCRIBEJSON);
-
-        try {
-            /*
-            获取头条号信息
-             */
-            JSONObject subJson = new JSONObject(subscribeJson);
-            headimage = subJson.getString("headimage");
-            subName = subJson.getString("name");
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        sub_img = getIntent().getStringExtra(SUB_AVATAR);
+        sub_name = getIntent().getStringExtra(SUB_NAME);
+        sub_addtime = getIntent().getStringExtra(SUB_ADDTIME);
+        detail_title = getIntent().getStringExtra(DETAIL_TITLE);
+        detail_id = getIntent().getStringExtra(DETAIL_ID);
     }
 
     /*
     获取详情页数据
      */
     private void getDetailData() {
-        API.getComMkit(mContext).getDetailArticle("readsubs",
-                tid, cId, "0", "0", "0", "1000", 0).enqueue(new Callback<HolgaResultDetail>() {
+        API.getComMkit(mContext).GAG_Content(detail_id).enqueue(new Callback<NewsDetailBean>() {
             @Override
-            public void onResponse(Call<HolgaResultDetail> call, Response<HolgaResultDetail> response) {
-                if (response.body() != null && response.body().page.holgaDetails.size() != 0) {
+            public void onResponse(Call<NewsDetailBean> call, Response<NewsDetailBean> response) {
+                if (response.body() != null&& response.body().getData()!=null) {
                     network_error.setVisibility(View.GONE);
-                    HolgaResultDetail body = response.body();
-                    mContent = body.page.holgaDetails.get(0).getTcontent();
+                    mContent = response.body().getData().getContent();
                     loadWeb();
-                } else {
+                }else {
                     lay_defaultView.setVisibility(View.GONE);
                     network_error.setVisibility(View.VISIBLE);
                 }
             }
 
             @Override
-            public void onFailure(Call<HolgaResultDetail> call, Throwable t) {
+            public void onFailure(Call<NewsDetailBean> call, Throwable t) {
                 lay_defaultView.setVisibility(View.GONE);
                 network_error.setVisibility(View.VISIBLE);
             }

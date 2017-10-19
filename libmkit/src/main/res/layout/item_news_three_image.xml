@@ -62,6 +62,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:textSize="12sp"
+            android:id="@+id/item_sub_name"
             android:textColor="@color/color_b2"
             android:text="Astrology King"/>
         <TextView
@@ -69,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:textSize="12sp"
+            android:id="@+id/item_sub_time"
             android:textColor="@color/color_b2"
             android:text="23-Sep 06：15"/>
     </RelativeLayout>

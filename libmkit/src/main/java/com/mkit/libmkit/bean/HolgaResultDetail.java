@@ -14,7 +14,8 @@ public class HolgaResultDetail {
     public Page page;
     public class Page{
         public String index;
-        public @SerializedName("items") List<HolgaDetail> holgaDetails;
+        public @SerializedName("items")
+        List<HolgaDetail> holgaDetails;
 
     }
 }

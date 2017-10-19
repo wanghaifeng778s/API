@@ -3,6 +3,7 @@ package com.mkit.libmkit.http;
 import android.content.Context;
 
 import com.google.gson.Gson;
+import com.mkit.libmkit.BuildConfig;
 
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -22,14 +23,14 @@ import timber.log.Timber;
  */
 
 public class HttpService {
-
-    public static final String BASE_URL= "http://api.anawin.com";
+//http://47.88.188.120:8170
+    public static final String BASE_URL= BuildConfig.DE_BUG?"http://47.88.188.120:8170":"http://47.88.188.120:8170";
 
     public static final int TIME_OUT=10;
 
     private static Retrofit retrofit;
 
-    private static void getRetrofit(Context mContext){
+    private static void getRetrofit(final Context mContext){
         Timber.plant(new Timber.DebugTree());
         OkHttpClient client= null;
         try {
@@ -39,12 +40,12 @@ public class HttpService {
                     .addInterceptor(new Interceptor() {
                         @Override
                         public Response intercept(Chain chain) throws IOException {
-                            return new HttpHandler().onRequest(chain);
+                            return new HttpHandler(mContext).onRequest(chain);
                         }
                     })
-                    .addNetworkInterceptor(new RequestInterceptor(new HttpHandler()))
-//                    .sslSocketFactory(MySSLSocketFactory.getSSLSocketFactoryT(mContext))
-//                    .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
+                    .addNetworkInterceptor(new RequestInterceptor(new HttpHandler(mContext)))
+                    .sslSocketFactory(MySSLSocketFactory.getSSLSocketFactoryT(mContext))
+                    .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
                     .build();
         } catch (Exception e) {
             e.printStackTrace();

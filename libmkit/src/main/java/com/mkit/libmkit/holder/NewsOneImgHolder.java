@@ -11,9 +11,6 @@ import com.mkit.libmkit.R;
 import com.mkit.libmkit.base.BaseViewHolder;
 import com.mkit.libmkit.bean.HolgaItem;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 
 /**
  * Created by WHF.Javas on 2017/8/22.
@@ -37,13 +34,7 @@ public class NewsOneImgHolder extends BaseViewHolder<HolgaItem> implements View.
     @Override
     public void bindHolder(HolgaItem dataModel) {
         title.setText(dataModel.getTitle());
-        String imgUrl = "";
-        try {
-            JSONArray jsonArray = new JSONArray(dataModel.getImage());
-            imgUrl = jsonArray.get(0).toString();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String imgUrl = dataModel.getImages().get(0);
         Glide.with(mContext)
                 .load(imgUrl)
                 .into(imgView);

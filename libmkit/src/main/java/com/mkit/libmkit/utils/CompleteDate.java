@@ -37,7 +37,8 @@ public class CompleteDate {
         if (atime.equals("")) {
             return "";
         } else {
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");1508406367168
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmms");
 
             // dateFormat.setTimeZone(getCurrentTimeZone());
             Date date = null;

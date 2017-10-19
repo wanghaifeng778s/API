@@ -124,7 +124,7 @@ public class Mkit_HomeListFragment extends BaseFragment implements OnRefreshList
     }
 
     private void getData(final int count) {
-        API.getComMkit(mContext).getTestData().enqueue(new Callback<HolgaResult>() {
+        API.getComMkit(mContext).GAG_PullDown("weird_fun,adult_jokes,meme,gif,funny_animals,funny_fails,jokes,funny_pictures,funny_trolls,funny_cartoons").enqueue(new Callback<HolgaResult>() {
             @Override
             public void onResponse(Call<HolgaResult> call, Response<HolgaResult> response) {
                 if (response.body() != null && response.body().page != null
@@ -138,7 +138,6 @@ public class Mkit_HomeListFragment extends BaseFragment implements OnRefreshList
                     if (listAdapter.getData().size() != 0) {
                         if (count == -1) {
                             rFlag=true;
-                            size--;
                         }
                     }
                     showNotice(0,size + "");
@@ -146,7 +145,7 @@ public class Mkit_HomeListFragment extends BaseFragment implements OnRefreshList
                     network_error.setVisibility(View.GONE);
 
                 } else {
-                    Log.d("*****", "onResponse: "+"SSSSSSSSSSSS_2"+response.body().itemMode);
+//                    Log.d("*****", "onResponse: "+"SSSSSSSSSSSS_2"+response.body().itemMode);
                     showNotice(1, getResources().getString(R.string.nomore));
                     if (listAdapter.getData().size() == 0) {
                         network_error.setVisibility(View.VISIBLE);
@@ -199,15 +198,11 @@ public class Mkit_HomeListFragment extends BaseFragment implements OnRefreshList
             int i = view.getId();
             if (i == R.id.style1 || i == R.id.style2) {
                 Intent intent = new Intent(mContext, Mkit_WebActivity.class);
-                intent.putExtra(Mkit_WebActivity.MATIME, holgaItem.getAtime());
-                intent.putExtra(Mkit_WebActivity.MDOMAIN, holgaItem.getDomain());
-                intent.putExtra(Mkit_WebActivity.MTITLE, holgaItem.getTitle());
-                intent.putExtra(Mkit_WebActivity.MURL, holgaItem.getUrl());
-                intent.putExtra(Mkit_WebActivity.SIMGSTR, holgaItem.getImportImage());
-                intent.putExtra(Mkit_WebActivity.SID, holgaItem.getSid());
-                intent.putExtra(Mkit_WebActivity.CID, holgaItem.getCid());
-                intent.putExtra(Mkit_WebActivity.UUID, holgaItem.getUuid());
-                intent.putExtra(Mkit_WebActivity.SUBSCRIBEJSON, holgaItem.getSubscribeJson());
+                intent.putExtra(Mkit_WebActivity.DETAIL_TITLE, holgaItem.getTitle());
+                intent.putExtra(Mkit_WebActivity.SUB_NAME, holgaItem.getAuthor().getName());
+                intent.putExtra(Mkit_WebActivity.SUB_AVATAR, holgaItem.getAuthor().getAvatar());
+                intent.putExtra(Mkit_WebActivity.DETAIL_ID, holgaItem.getTid());
+                intent.putExtra(Mkit_WebActivity.SUB_ADDTIME, holgaItem.getAddtime()+"");
                 mContext.startActivity(intent);
 
             }

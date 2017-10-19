@@ -11,9 +11,7 @@ import com.bumptech.glide.Glide;
 import com.mkit.libmkit.R;
 import com.mkit.libmkit.base.BaseViewHolder;
 import com.mkit.libmkit.bean.HolgaItem;
-
-import org.json.JSONArray;
-import org.json.JSONException;
+import com.mkit.libmkit.utils.CompleteDate;
 
 
 /**
@@ -27,6 +25,8 @@ public class NewsThreeImgHolder extends BaseViewHolder<HolgaItem> implements Vie
     private ImageView imgView2;
     private ImageView imgView3;
     private LinearLayout viewById;
+    private TextView item_sub_time;
+    private TextView item_sub_name;
 
     public NewsThreeImgHolder(Context context, ViewGroup parent) {
         super(context, parent);
@@ -35,6 +35,8 @@ public class NewsThreeImgHolder extends BaseViewHolder<HolgaItem> implements Vie
     @Override
     public void inItView(View view) {
         title = (TextView) view.findViewById(R.id.tv_t_title);
+        item_sub_time = (TextView) view.findViewById(R.id.item_sub_time);
+        item_sub_name = (TextView) view.findViewById(R.id.item_sub_name);
         imgView1 = (ImageView) view.findViewById(R.id.img_t_1);
         imgView2 = (ImageView) view.findViewById(R.id.img_t_2);
         imgView3 = (ImageView) view.findViewById(R.id.img_t_3);
@@ -44,18 +46,11 @@ public class NewsThreeImgHolder extends BaseViewHolder<HolgaItem> implements Vie
     @Override
     public void bindHolder(HolgaItem dataModel) {
         title.setText(dataModel.getTitle());
-        String imgUrl1 = "";
-        String imgUrl2 = "";
-        String imgUrl3 = "";
-        try {
-            JSONArray jsonArray = new JSONArray(dataModel.getImage());
-
-            imgUrl1 = jsonArray.get(0).toString();
-            imgUrl2 = jsonArray.get(1).toString();
-            imgUrl3 = jsonArray.get(2).toString();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        item_sub_name.setText(dataModel.getAuthor().getName());
+        item_sub_time.setText(CompleteDate.CurTime(dataModel.getAddtime()+""));
+        String imgUrl1 = dataModel.getImages().get(0);
+        String imgUrl2 = dataModel.getImages().get(1);
+        String imgUrl3 = dataModel.getImages().get(2);
         Glide.with(mContext)
                 .load(imgUrl1)
 //                .override(screenWidth,screenHeight)

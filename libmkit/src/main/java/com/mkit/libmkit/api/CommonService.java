@@ -2,7 +2,7 @@ package com.mkit.libmkit.api;
 
 import com.mkit.libmkit.bean.HolgaResult;
 import com.mkit.libmkit.bean.HolgaResultDetail;
-import com.mkit.libmkit.bean.NewsItemBean;
+import com.mkit.libmkit.bean.NewsDetailBean;
 
 import okhttp3.ResponseBody;
 import retrofit2.Call;
@@ -18,8 +18,17 @@ import retrofit2.http.Query;
 
 public interface CommonService {
 
-    @GET("http://47.91.65.163:17621/recom/doc.do?appid=2&topDocKey=zxTopDoc")
-    Call<NewsItemBean> getNewsList(@Query("devid") String devid);
+
+    @GET("api/user/register")
+    Call<ResponseBody> GAG_register();
+
+    @GET("api/article/pulldown")
+    Call<HolgaResult> GAG_PullDown(@Query("subjects") String subjects);
+
+    @GET("api/article/content")
+    Call<NewsDetailBean> GAG_Content(@Query("tid") String tid);
+
+
 
     @GET("https://irrational.cn/lolu/article/pullup")
     Call<ResponseBody> getSth();

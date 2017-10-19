@@ -62,10 +62,10 @@ public class CheckUtils {
     }
 
     public static String getDID(Context context) {
-        return SharedPrefUtil.getString(context, "did", "");
+        return SharedPrefUtil.getString(context, "did", "-1");
     }
 
     public static String getPID(Context context) {
-        return SharedPrefUtil.getString(context, "pid", "");
+        return SharedPrefUtil.getString(context, "pid", "-1");
     }
 }
