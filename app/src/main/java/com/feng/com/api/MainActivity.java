@@ -27,9 +27,7 @@ public class MainActivity extends AppCompatActivity {
                 getData();
             }
         });
-
          viewById = (TextView) findViewById(R.id.tv_show);
-        BadgeUtil.setBadgeCount(getApplicationContext(), 5, R.mipmap.ic_launcher);
 
     }
 

@@ -44,8 +44,8 @@ public class HttpService {
                         }
                     })
                     .addNetworkInterceptor(new RequestInterceptor(new HttpHandler(mContext)))
-                    .sslSocketFactory(MySSLSocketFactory.getSSLSocketFactoryT(mContext))
-                    .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
+//                    .sslSocketFactory(MySSLSocketFactory.getSSLSocketFactoryT(mContext))
+//                    .hostnameVerifier(org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER)
                     .build();
         } catch (Exception e) {
             e.printStackTrace();

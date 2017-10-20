@@ -68,8 +68,8 @@ public class HttpHandler {
                 .addQueryParameter("dcid", "2000")//渠道号(小米:20000)
                 .addQueryParameter("mos", "1")//用户终端系统(0:IOS,1:Android)
                 .addQueryParameter("appversion", BuildConfig.VERSION_NAME)//版本
-//                .addQueryParameter("subjects", "weird_fun,adult_jokes,meme,gif,funny_animals,funny_fails,jokes,funny_pictures,funny_trolls,funny_cartoons")//主题号逗号分隔
                 .addQueryParameter("lang", "1")//用户语言（可选值 0:English,1:Hindi,2:Marathi,3:Tamil）
+//                .addQueryParameter("subjects", "weird_fun,adult_jokes,meme,gif,funny_animals,funny_fails,jokes,funny_pictures,funny_trolls,funny_cartoons")//主题号逗号分隔
 //                .addQueryParameter("cid", "32")//频道
 //                .addQueryParameter("strategy", "32")//策略 1 频道 2 主题 3 主题下频道
 //                .addQueryParameter("pmode", "1")//机型
@@ -77,13 +77,13 @@ public class HttpHandler {
                 .host(request.url().host());
 
         request = request.newBuilder()
-                .header(X_CA_REQUEST_MODE, h1)
-                .header(X_Ca_Stage, h2)
-                .header(X_Ca_Key, h3)
-                .header(Accept, h4)
-                .header(X_Ca_Timestamp, h5)
-                .header(X_Ca_Signature_Headers, h6)
-                .header(X_Ca_Signature, getSign())
+//                .header(X_CA_REQUEST_MODE, h1)
+//                .header(X_Ca_Stage, h2)
+//                .header(X_Ca_Key, h3)
+//                .header(Accept, h4)
+//                .header(X_Ca_Timestamp, h5)
+//                .header(X_Ca_Signature_Headers, h6)
+//                .header(X_Ca_Signature, getSign())
                 .url(authorizedUrlBuilder.build())
                 .build();
         return chain.proceed(request);
